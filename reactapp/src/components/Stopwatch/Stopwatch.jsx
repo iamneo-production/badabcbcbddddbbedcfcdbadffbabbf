@@ -9,7 +9,7 @@ function Stopwatch() {
   const[isDisabled,setIsDisabled] = useState(true)
 
   const start = () => {
-    setText("Stop")
+    setText("Pause")
     setIsDisabled(false)
     setIsRunning(true);
     intervalRef.current = setInterval(() => {
