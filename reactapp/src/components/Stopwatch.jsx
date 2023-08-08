@@ -1,6 +1,6 @@
 // src/components/Stopwatch/Stopwatch.jsx
 import React, { useState, useEffect } from 'react';
-
+import './stopwatch.module.css'
 const Stopwatch = () => {
   const [timer, setTimer] = useState(0);
   const [running, setRunning] = useState(false);
@@ -42,8 +42,8 @@ const Stopwatch = () => {
         </>
       ) : (
         <>
-          <button id="start" onClick={handleStartPause}>
-            Start
+          <button id={timer > 0 ? 'resume' : 'start'} onClick={handleStartPause}>
+            {timer > 0 ? 'Resume' : 'Start'}
           </button>
           <button id="reset" onClick={handleReset} disabled={timer === 0}>
             Reset
