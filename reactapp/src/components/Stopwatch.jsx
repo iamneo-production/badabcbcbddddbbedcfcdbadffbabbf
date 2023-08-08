@@ -36,17 +36,18 @@ const Stopwatch = () => {
           <button id="pause" onClick={handleStartPause}>
             Pause
           </button>
+          <button id="reset" disabled>
+            Reset
+          </button>
         </>
       ) : (
         <>
           <button id="start" onClick={handleStartPause}>
             Start
           </button>
-          {timer > 0 && (
-            <button id="reset" onClick={handleReset}>
-              Reset
-            </button>
-          )}
+          <button id="reset" onClick={handleReset} disabled={timer === 0}>
+            Reset
+          </button>
         </>
       )}
     </div>
