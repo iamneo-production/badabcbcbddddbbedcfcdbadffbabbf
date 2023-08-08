@@ -1,64 +1,72 @@
-// src/components/Stopwatch/Stopwatch.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import classes from './stopwatch.module.css'
 
-const Stopwatch = () => {
-  const [timer, setTimer] = useState(0);
-  const [running, setRunning] = useState(false);
+function Stopwatch() {
+  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef(null);
+  const [text,setText] = useState("Start")
+  const[isDisabled,setIsDisabled] = useState(true)
 
-  useEffect(() => {
-    let interval;
-
-    if (running) {
-      interval = setInterval(() => {
-        setTimer(prevTimer => prevTimer + 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-
-    return () => clearInterval(interval);
-  }, [running]);
-
-  const handleStartPause = () => {
-    setRunning(prevRunning => !prevRunning);
+  const start = () => {
+    setText("Pause")
+    setIsDisabled(false)
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setTime((prevTime) => {
+        const seconds = prevTime.seconds + 1;
+        const minutes = prevTime.minutes + Math.floor(seconds / 60);
+        const hours = prevTime.hours + Math.floor(minutes / 60);
+        return {
+          hours: hours,
+          minutes: minutes % 60,
+          seconds: seconds % 60,
+        };
+      });
+    }, 1000);
   };
 
-  const handleReset = () => {
-    setRunning(false);
-    setTimer(0);
+  const stop = () => {
+    setText("Resume")
+    clearInterval(intervalRef.current);
+    setIsRunning(false);
+  };
+
+  const reset = () => {
+    setIsDisabled(true)
+    clearInterval(intervalRef.current);
+    setIsRunning(false);
+    setTime({ hours: 0, minutes: 0, seconds: 0 });
+  };
+
+  const formatTime = (time) => {
+    return `${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`;
   };
 
   return (
     <div>
-      <p data-testid="time">{formatTime(timer)}</p>
-      {running ? (
-        <>
-          <button data-testid="pause" id="pause" onClick={handleStartPause}>
-            Pause
-          </button>
-          <button data-testid="reset" id="reset" disabled>
-            Reset
-          </button>
-        </>
-      ) : (
-        <>
-          <button data-testid="start" id="start" onClick={handleStartPause}>
-            {timer === 0 ? 'Start' : 'Resume'}
-          </button>
-          <button data-testid="reset" id="reset" onClick={handleReset} disabled={timer === 0}>
-            Reset
-          </button>
-        </>
-      )}
+      <div className={classes.main}>
+            <div className={classes.inner_main}>
+                <div className={classes.top}>
+                    <h2 className={classes.heading}>
+                        React Stopwatch
+                    </h2>
+                </div>
+                <div className={classes.middle}>
+                    <p id={classes.time}>
+                        {formatTime(time)}
+                    </p>
+                </div>
+                <div className={classes.bottom}>
+                    <button onClick={isRunning ? stop : start}
+                        className={classes.btn}>{text}</button>
+                    <button className={`${classes.btn} ${isDisabled && classes.disabled}`} id={classes.start}
+                    onClick={reset}>Reset</button>
+                </div>
+            </div>
+        </div>
     </div>
   );
-};
-
-const formatTime = time => {
-  const hours = Math.floor(time / 3600).toString().padStart(2, '0');
-  const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
-  const seconds = (time % 60).toString().padStart(2, '0');
-  return `${hours}:${minutes}:${seconds}`;
-};
+}
 
 export default Stopwatch;
