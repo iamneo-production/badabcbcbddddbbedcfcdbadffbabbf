@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import classes from './stopwatch.module.css';
+import 
 
 const Stopwatch = () => {
   const [timer, setTimer] = useState(0);
@@ -44,7 +44,7 @@ const Stopwatch = () => {
         </div>
       ) : (
         <div>
-          <button data-testid="start" className={classes.button} id={timer > 0 ? 'resume' : 'start'} onClick={handleStartPause}>
+          <button data-testid="start" className={classes.button} id="start" onClick={handleStartPause}>
             {timer > 0 ? 'Resume' : 'Start'}
           </button>
           <button data-testid="reset" className={classes.button} id="reset" onClick={handleReset} disabled={timer === 0}>
