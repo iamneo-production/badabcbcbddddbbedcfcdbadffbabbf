@@ -30,22 +30,22 @@ const Stopwatch = () => {
 
   return (
     <div>
-      <p id="time">{formatTime(timer)}</p>
+      <p data-testid="time">{formatTime(timer)}</p>
       {running ? (
         <>
-          <button id="pause" onClick={handleStartPause}>
+          <button data-testid="pause" id="pause" onClick={handleStartPause}>
             Pause
           </button>
-          <button id="reset" disabled>
+          <button data-testid="reset" id="reset" disabled>
             Reset
           </button>
         </>
       ) : (
         <>
-          <button id={timer > 0 ? 'resume' : 'start'} onClick={handleStartPause}>
-            {timer > 0 ? 'Resume' : 'Start'}
+          <button data-testid="start" id="start" onClick={handleStartPause}>
+            {timer === 0 ? 'Start' : 'Resume'}
           </button>
-          <button id="reset" onClick={handleReset} disabled={timer === 0}>
+          <button data-testid="reset" id="reset" onClick={handleReset} disabled={timer === 0}>
             Reset
           </button>
         </>
