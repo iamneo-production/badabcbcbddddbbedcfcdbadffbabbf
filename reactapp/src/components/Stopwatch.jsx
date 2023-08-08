@@ -1,6 +1,6 @@
 // src/components/Stopwatch/Stopwatch.jsx
 import React, { useState, useEffect } from 'react';
-import './stopwatch.module.css'
+
 const Stopwatch = () => {
   const [timer, setTimer] = useState(0);
   const [running, setRunning] = useState(false);
