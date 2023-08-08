@@ -1,6 +1,6 @@
-// src/components/Stopwatch/Stopwatch.jsx
 import React, { useState, useEffect } from 'react';
-import 
+import classes from './stopwatch.module.css';
+
 const Stopwatch = () => {
   const [timer, setTimer] = useState(0);
   const [running, setRunning] = useState(false);
@@ -30,25 +30,27 @@ const Stopwatch = () => {
 
   return (
     <div>
-      <p data-testid="time">{formatTime(timer)}</p>
+      <p data-testid="time" className={classes.time}>
+        {formatTime(timer)}
+      </p>
       {running ? (
-        <>
-          <button data-testid="pause" id="pause" onClick={handleStartPause}>
+        <div>
+          <button data-testid="pause" className={classes.button} id="pause" onClick={handleStartPause}>
             Pause
           </button>
-          <button data-testid="reset" id="reset" disabled>
+          <button data-testid="reset" className={classes.button} id="reset" disabled>
             Reset
           </button>
-        </>
+        </div>
       ) : (
-        <>
-          <button data-testid="start" id={timer > 0 ? 'resume' : 'start'} onClick={handleStartPause}>
+        <div>
+          <button data-testid="start" className={classes.button} id={timer > 0 ? 'resume' : 'start'} onClick={handleStartPause}>
             {timer > 0 ? 'Resume' : 'Start'}
           </button>
-          <button data-testid="reset" id="reset" onClick={handleReset} disabled={timer === 0}>
+          <button data-testid="reset" className={classes.button} id="reset" onClick={handleReset} disabled={timer === 0}>
             Reset
           </button>
-        </>
+        </div>
       )}
     </div>
   );
